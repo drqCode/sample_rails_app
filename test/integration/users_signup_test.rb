@@ -35,7 +35,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                        password_confirmation: '123435'}}
     end
     assert_response :redirect
-    refute flash.empty?
+    follow_redirect!
+    assert is_logged_in?
     User.find_by_email('fcsb@slabi.ro').destroy
 
   end
