@@ -73,5 +73,8 @@ class UserTest < ActiveSupport::TestCase
     refute @user.valid?
   end
 
+  test 'authenticated? shoukd return false for a user with nil digest' do
+    refute @user.authenticated?('')
+  end
 
 end
