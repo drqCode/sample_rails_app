@@ -3,6 +3,7 @@ tet:
   name: Tet
   email: tet@tet.rom
   password_digest: <%= User.digest('password') %>
+  admin: true
 
 denis:
   name: Denis

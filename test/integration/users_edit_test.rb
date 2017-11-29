@@ -3,7 +3,7 @@ require 'test_helper'
 class UsersEditTest < ActionDispatch::IntegrationTest
 
   def setup
-    @user=users(:tet)
+    @user=users(:denis)
   end
 
   test 'invalid edit' do
@@ -15,6 +15,23 @@ class UsersEditTest < ActionDispatch::IntegrationTest
                                             password: 'foo',
                                             password_confirmation: 'bar'}}
     assert_template 'users/edit'
+  end
+
+  test 'successful edit, but it should not update admin attribute' do
+    log_in_as(@user)
+    get edit_user_path(@user)
+
+    name = 'tet2'
+    email = 'tet2@tet.ro'
+    patch user_path(@user), params: {user: {name: name,
+                                            email: email,
+                                            password: '',
+                                            password_confirmation: '',
+                                            admin: true}}
+    @user.reload
+    refute @user.admin?
+    assert_equal name, @user.name
+    assert_equal email, @user.email
   end
 
   test 'successful edit' do
