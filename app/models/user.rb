@@ -17,6 +17,10 @@ class User < ApplicationRecord
   before_save :downcase_email
   before_create :create_activation_digest
 
+  def feed
+    microposts
+  end
+
   def authenticated?(attribute, token)
     digest = __send__("#{attribute}_digest")
     return false if digest.nil?
