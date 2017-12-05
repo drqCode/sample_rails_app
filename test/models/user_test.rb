@@ -77,4 +77,12 @@ class UserTest < ActiveSupport::TestCase
     refute @user.authenticated?(:remember, '')
   end
 
+  test 'depended microposts should be deleted, when user is deleted' do
+    @user.save
+    @user.microposts.create(content: 'Lorem')
+    assert_difference 'Micropost.count', -1 do
+      @user.destroy
+    end
+  end
+
 end
