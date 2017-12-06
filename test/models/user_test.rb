@@ -85,4 +85,15 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test 'should follow and unfollow a user' do
+    tet = users(:tet)
+    denis = users(:denis)
+    refute tet.following?(denis)
+    tet.follow(denis)
+    assert tet.following?(denis)
+    assert denis.followers.include?(tet)
+    tet.unfollow(denis)
+    refute tet.following?(denis)
+  end
+
 end
