@@ -96,4 +96,22 @@ class UserTest < ActiveSupport::TestCase
     refute tet.following?(denis)
   end
 
+  test 'feed should have the right posts' do
+    tet = users(:tet)
+    denis  = users(:denis)
+    lana    = users(:lana)
+    # Posts from followed user
+    lana.microposts.each do |post_following|
+      assert tet.feed.include?(post_following)
+    end
+    # Posts from self
+    tet.microposts.each do |post_self|
+      assert tet.feed.include?(post_self)
+    end
+    # Posts from unfollowed user
+    denis.microposts.each do |post_unfollowed|
+      refute tet.feed.include?(post_unfollowed)
+    end
+  end
+
 end
